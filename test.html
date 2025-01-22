@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎参观施工现场</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .section {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <div class="caption">
+        施工现场
+    </div>
+    <div class="section">
+        <div class="section_caption">功能1</div>
+        <div class="line"><div class="cell"></div></div>
+    </div>
+    <div class="section">
+        <div class="section_caption">功能2</div>
+    </div>
+    <div class="section">
+        <div class="section_caption">功能3</div>
+    </div>
+    <div class="section">
+        <div class="section_caption">功能4</div>
+    </div>
+    <script>
+        console.log("UNDER CONSTRUCTION");
+
+        const getMeanPoint=(per,mode="classic")=>{
+            if(mode=="trivial"){return 33;}
+            else if(mode=="competitive"){return 73;}
+            else{
+                const qer=(per-1)**0.125+1;
+                const mean_0=-101*qer**2+392.6*qer-347.8;
+                const mean_1=0.92*mean_0+0.08*99;
+                return mean_1;
+            }
+        }
+
+        const getExpectedPoss=(n0, n1, x)=>{
+            return 1-Math.pow(1-n0/(n1+x-1), 0.5+0.5*x)*Math.pow((n1-1)/(n1-n0-1), 0.5-0.5*x);
+        }
+
+        const calc=(num0, num1, hapy, m=99, delta=0.5, mode="classic")=>{
+            const l=num0.length;
+            const Per=[];
+            const mean=[];
+            const X=[];
+            const poss=[];
+
+            X[0]=m;
+            for(let i=1;i<l;i++){X[i]=0;}
+            for(let i=0;i<l;i++){Per[i]=num1[i]/num0[i];mean[i]=getMeanPoint(Per[i], mode=mode)}
+            
+            const loopInnerFunc=(ind1, ind2)=>{
+                const old_expectation=hapy[ind1]*getExpectedPoss(num0[ind1], num1[ind1], (X[ind1]+delta)/(mean[ind1]+delta)) + hapy[ind2]*getExpectedPoss(num0[ind2], num1[ind2], (X[ind2]+delta)/(mean[ind2]+delta));
+                const new_expectation=hapy[ind1]*getExpectedPoss(num0[ind1], num1[ind1], (X[ind1]-1+delta)/(mean[ind1]+delta)) + hapy[ind2]*getExpectedPoss(num0[ind2], num1[ind2], (X[ind2]+1+delta)/(mean[ind2]+delta));
+                if(old_expectation<new_expectation){
+                    X[ind1]-=1;X[ind2]+=1;return true;
+                }
+                return false;
+            }
+            
+            let a=0;
+            let changed=false;
+            let ind1, ind2;
+            for(let i=0;i<l;i++){
+                for(let j=0;j<l;j++){
+                    ind1=(a+i)%l;
+                    ind2=(a+i+j)%l;
+                    changed=loopInnerFunc(ind1, ind2);
+                    if(changed){
+                        a=ind2;
+                        i=0;
+                        j=0;
+                    }
+                }
+            }
+
+            for(let i=0;i<l;i++){
+                poss[i]=getExpectedPoss(num0[i], num1[i], (X[i]+delta)/(mean[i]+delta))
+            }
+            return X, poss;
+        }
+    </script>
+</body>
+</html>
