@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,89 +11,423 @@
             margin: 0;
             -webkit-user-select: none;
             user-select: none;
+            background-color: #ddd;
+            color: #222;
         }
+
+        .invisuable{
+            position: fixed;
+            opacity: 0;
+            visibility: hidden;
+        }
+
         .section {
+            width: 640px;
+            margin: 10px auto;
+            padding: 20px;
+            border: 2px #222 solid;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .section * {
             display: flex;
             justify-content: space-around;
+            color: #222;
+            font-size: 16pt;
+        }
+
+        body{ 
+            text-align: center;
+        }
+
+        .caption {
+            display: inline-block;
+            font-size: 30pt;
+            font-weight: bold;
+            margin: 10px auto;
+        }
+
+        .section_caption {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        /* About checkbox */
+
+        .checkbox_container {
+            position: relative;
+            width: 120px;
+            height: 36px;
+            line-height: 36px;
+            border: 1px #222 solid;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .checkbox_container input[type=checkbox] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .checkbox_container .checkbox_text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: transparent;
+            width: 120px;
+        }
+
+        .checkbox_container input[type=checkbox]~.checkbox_label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 120px;
+            height: 36px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .checkbox_container input[type=checkbox]:checked~.checkbox_label {
+            background-color: #2c4;
+        }
+
+        /* About selector */
+        select {
+            background-color: transparent;
+            border: 1px solid #222;
+            border-radius: 10px;
+            width: 80px;
+            height: 36px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        option {
+            border-radius: 10px;
+            background-color: transparent;
+            max-width: 100px;
+            max-height: 36px;
+        }
+
+        /* About Table */
+        .table {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .table .row {
+            flex-direction: row;
+            padding: 5px 0;
+        }
+
+        .table .row+.row {
+            border-top: #888 2px solid;
+        }
+
+        .cell {
+            width: 120px;
+        }
+
+        /*About Input*/
+        .section input[type=text] {
+            appearance: none;
+            height: 34px;
+            border: #222 solid 1px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: transparent;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .section .button {
+            background-color: transparent;
+            border: 1px solid #222;
+            border-radius: 10px;
+            width: 80px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .section .button:active {
+            background-color: #69d;
+        }
+
+        .section .num_input {
+            width: 50px;
+        }
+
+        .section .err_message {
+            color: red;
+            width: 300px;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
+
 <body>
     <div class="caption">
-        施工现场
+        高级投点计算器
+    </div>
+
+    <div class="section">
+        <div class="section_caption">投点算概率</div>
+        <div class="table">
+            <div class="row">
+                <div class="cell bold">限选/已选</div>
+                <div class="cell bold">模型</div>
+                <div class="cell bold">意愿点</div>
+                <div class="cell bold">选上概率</div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <input type="text" class="num_input" id="num0_feat1" value="100">
+                    <span>/</span>
+                    <input type="text" class="num_input" id="num1_feat1" value="120">
+                </div>
+                <div class="cell">
+                    <select id="mode_feat1">
+                        <option value="classic">经典</option>
+                        <option value="trivial">平凡</option>
+                        <option value="competitive">激烈</option>
+                    </select>
+                </div>
+                <div class="cell">
+                    <input type="text" class="num_input" id="x_feat1" value="33">
+                </div>
+                <div class="cell">
+                    <span id="output_feat1"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="button" id="button_feat1">计算</div>
+                <div class="err_message" id="err_feat1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section_caption">概率算投点</div>
+        <div class="table">
+            <div class="row">
+                <div class="cell bold">限选/已选</div>
+                <div class="cell bold">模型</div>
+                <div class="cell bold">目标概率</div>
+                <div class="cell bold">建议投点</div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <input type="text" class="num_input" id="num0_feat2" value="100">
+                    <span>/</span>
+                    <input type="text" class="num_input" id="num1_feat2" value="120">
+                </div>
+                <div class="cell">
+                    <select id="mode_feat2">
+                        <option value="classic">经典</option>
+                        <option value="trivial">平凡</option>
+                        <option value="competitive">激烈</option>
+                    </select>
+                </div>
+                <div class="cell" style="justify-content: center;">
+                    <input type="text" class="num_input" id="p_feat2" value="80">
+                    <span>%</span>
+                </div>
+                <div class="cell">
+                    <span id="output_feat2"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="button" id="button_feat2">计算</div>
+                <div class="err_message" id="err_feat2"></div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="section" style="width:840px">
+        <div class="section_caption">综合投点</div>
+        <div>
+            <div class="button" id="button_feat3">计算</div>
+            <div class="button" id="addcourse_feat3">加课</div>
+            <div>
+                <span style="width:120px;">可分配点数</span>
+                <input type="text" class="num_input" id="totalx_feat3" value="99">
+            </div>
+            <div class="err_message" id="err_feat3"></div>
+            <div class="checkbox_container">
+                <input type="checkbox" id="prime_switch_feat3">
+                <label for="prime_switch_feat3" class="checkbox_label" id="prime_switch_text_feat3">素数投点</label>
+            </div>
+        </div>
+        <div class="table" id="table_feat3">
+            <div class="row">
+                <div class="cell bold">序号</div>
+                <div class="cell bold">限选/已选</div>
+                <div class="cell bold">模型</div>
+                <div class="cell bold">权重</div>
+                <div class="cell bold">建议投点</div>
+                <div class="cell bold">选上概率</div>
+                <div class="cell bold">减课</div>
+            </div>
+        </div>
     </div>
     <div class="section">
-        <div class="section_caption">功能1</div>
-        <div class="line"><div class="cell"></div></div>
+        <div class="section_caption">功能说明</div>
+        <div class="table">
+            <div class="row">
+                <p>关于三个模型</p>
+            </div>
+            <div class="row">
+                <p>关于计算公式</p>
+            </div>
+            <div class="row">
+                <p>关于我的独创内容</p>
+            </div>
+            <div class="row">
+                <p>关于开发者</p>
+            </div>
+        </div>
+        
     </div>
-    <div class="section">
-        <div class="section_caption">功能2</div>
+
+    <div class="section invisuable">
+        <div class="section_caption">功能样式测试</div>
+
+        <!-- checkbox -->
+        <div class="checkbox_container">
+            <input type="checkbox" name="test_checkbox" id="test_checkbox">
+            <label for="test_checkbox" class="checkbox_label">开关</label>
+        </div>
+
+        <!-- selector -->
+        <select name="test_selector" id="test_selector">
+            <option value="optA">选项A</option>
+            <option value="optB">选项B</option>
+            <option value="optC">选项C</option>
+        </select>
+
+        <!-- textinput -->
+        <input type="text" id="test_textinput">
+
+        <!-- button -->
+        <div class="button" onclick="(e)=>console.log(e)">按钮</div>
+
+        <!-- table -->
+        <div class="table">
+            <div class="row">
+                <div class="cell bold">列1</div>
+                <div class="cell bold">列2</div>
+            </div>
+            <div class="row">
+                <div class="cell">数据1</div>
+                <div class="cell">数据2</div>
+            </div>
+            <div class="row">
+                <div class="cell">数据3</div>
+                <div class="cell">数据4</div>
+            </div>
+        </div>
     </div>
-    <div class="section">
-        <div class="section_caption">功能3</div>
-    </div>
-    <div class="section">
-        <div class="section_caption">功能4</div>
-    </div>
+    
     <script>
         console.log("UNDER CONSTRUCTION");
 
-        const getMeanPoint=(per,mode="classic")=>{
-            if(mode=="trivial"){return 33;}
-            else if(mode=="competitive"){return 73;}
-            else{
-                const qer=(per-1)**0.125+1;
-                const mean_0=-101*qer**2+392.6*qer-347.8;
-                const mean_1=0.92*mean_0+0.08*99;
+        const getMeanPoint = (per, mode = "classic") => {
+            if (mode == "trivial") { return 33; }
+            else if (mode == "competitive") { return 73; }
+            else {
+                const qer = (per - 1) ** 0.125 + 1;
+                const mean_0 = -101 * qer ** 2 + 392.6 * qer - 347.8;
+                const mean_1 = 0.92 * mean_0 + 0.08 * 99;
                 return mean_1;
             }
         }
 
-        const getExpectedPoss=(n0, n1, x)=>{
-            return 1-Math.pow(1-n0/(n1+x-1), 0.5+0.5*x)*Math.pow((n1-1)/(n1-n0-1), 0.5-0.5*x);
+        const getExpectedPoss = (n0, n1, x) => {
+            return 1 - Math.pow(1 - n0 / (n1 + x - 1), 0.5 + 0.5 * x) * Math.pow((n1 - 1) / (n1 - n0 - 1), 0.5 - 0.5 * x);
         }
 
-        const calc=(num0, num1, hapy, m=99, delta=0.5, mode="classic")=>{
-            const l=num0.length;
-            const Per=[];
-            const mean=[];
-            const X=[];
-            const poss=[];
+        const calc = (num0, num1, hapy, m = 99, delta = 0.5, mode = "classic") => {
+            const l = num0.length;
+            const Per = [];
+            const mean = [];
+            const X = [];
+            const poss = [];
 
-            X[0]=m;
-            for(let i=1;i<l;i++){X[i]=0;}
-            for(let i=0;i<l;i++){Per[i]=num1[i]/num0[i];mean[i]=getMeanPoint(Per[i], mode=mode)}
-            
-            const loopInnerFunc=(ind1, ind2)=>{
-                const old_expectation=hapy[ind1]*getExpectedPoss(num0[ind1], num1[ind1], (X[ind1]+delta)/(mean[ind1]+delta)) + hapy[ind2]*getExpectedPoss(num0[ind2], num1[ind2], (X[ind2]+delta)/(mean[ind2]+delta));
-                const new_expectation=hapy[ind1]*getExpectedPoss(num0[ind1], num1[ind1], (X[ind1]-1+delta)/(mean[ind1]+delta)) + hapy[ind2]*getExpectedPoss(num0[ind2], num1[ind2], (X[ind2]+1+delta)/(mean[ind2]+delta));
-                if(old_expectation<new_expectation){
-                    X[ind1]-=1;X[ind2]+=1;return true;
+            X[0] = m;
+            for (let i = 1; i < l; i++) { X[i] = 0; }
+            for (let i = 0; i < l; i++) { Per[i] = num1[i] / num0[i]; mean[i] = getMeanPoint(Per[i], mode = mode) }
+
+            const loopInnerFunc = (ind1, ind2) => {
+                const old_expectation = hapy[ind1] * getExpectedPoss(num0[ind1], num1[ind1], (X[ind1] + delta) / (mean[ind1] + delta)) + hapy[ind2] * getExpectedPoss(num0[ind2], num1[ind2], (X[ind2] + delta) / (mean[ind2] + delta));
+                const new_expectation = hapy[ind1] * getExpectedPoss(num0[ind1], num1[ind1], (X[ind1] - 1 + delta) / (mean[ind1] + delta)) + hapy[ind2] * getExpectedPoss(num0[ind2], num1[ind2], (X[ind2] + 1 + delta) / (mean[ind2] + delta));
+                if (old_expectation < new_expectation) {
+                    X[ind1] -= 1; X[ind2] += 1; return true;
                 }
                 return false;
             }
-            
-            let a=0;
-            let changed=false;
+
+            let a = 0;
+            let changed = false;
             let ind1, ind2;
-            for(let i=0;i<l;i++){
-                for(let j=0;j<l;j++){
-                    ind1=(a+i)%l;
-                    ind2=(a+i+j)%l;
-                    changed=loopInnerFunc(ind1, ind2);
-                    if(changed){
-                        a=ind2;
-                        i=0;
-                        j=0;
+            for (let i = 0; i < l; i++) {
+                for (let j = 0; j < l; j++) {
+                    ind1 = (a + i) % l;
+                    ind2 = (a + i + j) % l;
+                    changed = loopInnerFunc(ind1, ind2);
+                    if (changed) {
+                        a = ind2;
+                        i = 0;
+                        j = 0;
                     }
                 }
             }
 
-            for(let i=0;i<l;i++){
-                poss[i]=getExpectedPoss(num0[i], num1[i], (X[i]+delta)/(mean[i]+delta))
+            for (let i = 0; i < l; i++) {
+                poss[i] = getExpectedPoss(num0[i], num1[i], (X[i] + delta) / (mean[i] + delta))
             }
             return X, poss;
         }
+
+        const point2pos = (num0, num1, point, mode = "classic") => {
+            if (num0 >= num1) {
+                return 1;
+            }
+            const mean_point = getMeanPoint(num1 / num0, mode = mode);
+            return getExpectedPoss(num0, num1, point / mean_point);
+        }
+
+        const pos2point = (num0, num1, pos, mode = "classic") => {
+            if (num0 >= num1) {
+                return 0;
+            }
+            const mean_point = getMeanPoint(num1 / num0, mode = mode);
+            if (getExpectedPoss(num0, num1, 99 / mean_point) <= pos) {
+                return 99;
+            }
+            let low = 0;
+            let high = 99;
+            while (high - low > 1) {
+                const mid = Math.floor((low + high) / 2);
+                if (getExpectedPoss(num0, num1, mid / mean_point) < pos) {
+                    low = mid;
+                } else {
+                    high = mid;
+                }
+            }
+            return high;
+        }
     </script>
 </body>
+
 </html>
