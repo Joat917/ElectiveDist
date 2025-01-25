@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投点计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="min-width: 844px;">
+        <div class="author">本功能由<a href="https://github.com/Joat917" target="_blank">Joat917</a>独立开发</div>
+        <div class="caption">
+            <span style="display:inline;font-size:small;cursor:pointer;" id="dark_switch">☀️</span>
+            高级投点计算器
+            <span style="display:inline;font-size:small;">v1.1</span>
+        </div>
+
+        <div class="section">
+            <div class="section_caption">投点算概率</div>
+            <div class="table">
+                <div class="row">
+                    <div class="cell bold">限选/已选</div>
+                    <div class="cell bold">模型</div>
+                    <div class="cell bold">意愿点</div>
+                    <div class="cell bold">选上概率</div>
+                </div>
+                <div class="row">
+                    <div class="cell">
+                        <input type="text" class="num_input" id="num0_feat1" value="">
+                        <span>/</span>
+                        <input type="text" class="num_input" id="num1_feat1" value="">
+                    </div>
+                    <div class="cell">
+                        <select id="mode_feat1">
+                            <option value="classic">经典</option>
+                            <option value="trivial">平凡</option>
+                            <option value="competitive">激烈</option>
+                        </select>
+                    </div>
+                    <div class="cell">
+                        <input type="text" class="num_input" id="x_feat1" value="">
+                    </div>
+                    <div class="cell">
+                        <span id="output_feat1">?</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="button" id="button_feat1">计算</div>
+                    <div class="err_message" id="err_feat1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section_caption">概率算投点</div>
+            <div class="table">
+                <div class="row">
+                    <div class="cell bold">限选/已选</div>
+                    <div class="cell bold">模型</div>
+                    <div class="cell bold">目标概率</div>
+                    <div class="cell bold">建议投点</div>
+                </div>
+                <div class="row">
+                    <div class="cell">
+                        <input type="text" class="num_input" id="num0_feat2" value="">
+                        <span>/</span>
+                        <input type="text" class="num_input" id="num1_feat2" value="">
+                    </div>
+                    <div class="cell">
+                        <select id="mode_feat2">
+                            <option value="classic">经典</option>
+                            <option value="trivial">平凡</option>
+                            <option value="competitive">激烈</option>
+                        </select>
+                    </div>
+                    <div class="cell" style="justify-content: center;">
+                        <input type="text" class="num_input" id="p_feat2" value="">
+                        <span>%</span>
+                    </div>
+                    <div class="cell">
+                        <span id="output_feat2">?</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="button" id="button_feat2">计算</div>
+                    <div class="err_message" id="err_feat2"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section" style="width:840px">
+            <div class="section_caption">综合投点</div>
+            <div>
+                <div class="button" id="button_feat3">计算</div>
+                <div class="button" id="add_feat3">加课</div>
+                <div>
+                    <span style="width:120px;">可分配点数</span>
+                    <input type="text" class="num_input" id="totalx_feat3" value="99">
+                </div>
+                <div class="err_message" id="err_feat3"></div>
+                <div class="checkbox_container">
+                    <input type="checkbox" id="prime_switch_feat3">
+                    <label for="prime_switch_feat3" class="checkbox_label" id="prime_switch_text_feat3">素数投点</label>
+                </div>
+            </div>
+            <div class="table" id="table_feat3">
+                <div class="row">
+                    <div class="cell bold">序号</div>
+                    <div class="cell bold">限选/已选</div>
+                    <div class="cell bold">模型</div>
+                    <div class="cell bold">权重</div>
+                    <div class="cell bold">建议投点</div>
+                    <div class="cell bold">选上概率</div>
+                    <div class="cell bold">减课</div>
+                </div>
+            </div>
+        </div>
+        <div class="section" style="width:840px; max-width: 840px;">
+            <div class="section_caption">功能说明</div>
+            <div class="text_section">
+                <p>1.投点算概率：输入限选、已选人数，输入意愿点，单击“计算”按钮，就能得到这门课选上的概率。</p>
+                <p>2.概率算投点：输入限选、已选人数，输入目标概率，单击“计算”按钮，就能得到这门课需要的点数。如果提示所需点数过多，那么你需要降低你的目标概率。</p>
+                <p>3.综合投点：单击“加课”添加一门课程，在对应课程后面“减课”删去该门课程。输入多门课的限选、已选人数，单击“计算”按钮获得建议点数和选上概率。如果你对某一门课的选上概率不是很满意，调高对应课程的权重，再次点击“计算”按钮。如果需要投的点数为素数，点亮“素数投点”按钮。
+                <p>
+            </div>
+
+            <div style="border-top:#888 2px solid"></div>
+
+            <h4>关于三个模型</h4>
+            <div class="text_section">
+                <p>这里的“模型”在给定已选/限选人数的情况下，算出其他人的平均投点数量。所有模型都假设其他人投点数量一样。这不现实，但这是最坏的情况。</p>
+                <p>以下是对三个模型的详细介绍：</p>
+                <p style="display:inline;">
+                    经典：沿用了学长留下的公式。假设已选/限选人数为x，首先计算y=(x-1)^(1/8)+1，然后计算z=-101*y^2+392.6*y-347.8，最后计算w=0.92z+0.08*99，那么w就是其他人的平均投点数量。
+                    这个公式也许有些抽象，但是事实上它是一个在x=1.6附近取到峰值39、之后缓慢下降的曲线。
+                    你可以尝试在<a href="https://www.desmos.com/calculator" style="text-decoration:none;display:inline;"
+                        target="_blank">Desmos</a>中绘制它的图象。
+                </p>
+                <p>平凡：所有人在所有情况下投入37点</p>
+                <p>激烈：所有人在所有情况下投入73点。适用于你认为存在大量同学99点all-in的课程。</p>
+            </div>
+
+            <div style="border-top:#888 2px solid"></div>
+
+            <h4>关于计算公式</h4>
+            <div class="text_section">
+                <p>在已选人数是n，限选人数是m，而你的投点是其他人平均投点的a倍的情况下，你被选上的概率是：</p>
+                <p>P = 1 - Prod(i from 1 to m)[(n-i)/(n-i+a)]</p>
+                <p style="display:inline;">在某些条件下，这个公式可以被近似<s
+                        style="display:inline;">，但在计算机强大算力的加持下显得毫无意义</s>。我没有使用任何近似，直接套用原公式进行计算。</p>
+                <p>在给定总可分配点数不变的情况下，综合投点模块协调你的投点，使得选上概率的加权平均最大。</p>
+            </div>
+
+            <div style="border-top:#888 2px solid"></div>
+
+            <h4>关于我的独创内容</h4>
+
+            <div class="text_section">
+                <p>科学的投点计算并不是我的原创，但是我把它做到了前所未有的高度。以下是我的计算器相较于学长写的计算器所独有的功能。</p>
+                <p>第一，我加入了素数投点功能。如果你和我一样也相信素数能带来好运，那么请把素数投点按钮点亮。它会调整点数，让尽可能多的课程投到素数的点数。</p>
+                <p>第二，我加入了投点算概率模块。它方便地根据一门课的意愿点算出这门课选上的概率，而无需通过加入其它课程并对权重进行疯狂的调整。</p>
+                <p>第三，我加入了概率算投点模块。它能够根据你对选上某一门课概率的要求，算出你需要为它提供多少点，从而让你更精准地为剩下的课程分配其余点数。</p>
+                <p>第四，我改进了用户体验。减课按钮出现在了每一门课程的后方，而不像旧版计算器，永远只能删除最后一门课。可分配点数可以调节到小于99，这增加了自由分配点数的可能性。此外，本计算器不强制要求限选小于已选，你可以把已选稍微调高一个人以防止有人在最后一秒钟使你掉课。
+                </p>
+                <p>第五，我加入了更多的模型。对于抢手的课程，你可以使用激烈的竞争模型，并给予较大的权重，这样才能更加科学地预测你的掉课几率，做出更科学的决定。</p>
+                <p>第六，我改善了用户界面。我去除了提示框，计算成功后没有烦人的提示框让你确定，计算错误也只会显示红字提醒你修改。我加入了暗黑模式，点击标题左侧的太阳或月亮即可对显示模式进行切换。</p>
+                <p>我没有使用任何现有的模版，一切网页元素均由我自己设计，这给了我巨大的发挥空间。此外，我的javascript也完全由我自己实现（甚至没有使用AI），不使用过时的var声明，使用了功能分离和面向对象的思维方式，大幅提高了代码的可读性。
+                </p>
+            </div>
+
+            <div style="border-top:#888 2px solid"></div>
+
+            <h4>关于开发者</h4>
+
+            <div class="text_section">
+                <p style="display: inline;">我是谁？<a href="https://github.com/Joat917" target="_blank"
+                        style="display: inline;text-decoration: none;">Joat917</a>，一只闲得舔爪子的不搞开发的学牲。我利用课余时间，只制作我喜欢的功能和界面，为我自己服务；也乐于分享自己的工具，力所能及的帮助其他人。
+                </p>
+            </div>
+        </div>
+        <div style="height: 30px"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

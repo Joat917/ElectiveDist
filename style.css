@@ -1,0 +1,199 @@
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-user-select: none;
+    user-select: none;
+    --bg-color: #ddd;
+    --fg-color: #222;
+    --bg-color-stressed: #4c8;
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    transition: color 0.3s, background-color 0.3s;
+}
+
+[data-theme="dark"] * {
+    --bg-color: #222;
+    --fg-color: #ddd;
+    --bg-color-stressed: #46a;
+}
+
+.invisuable {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.section {
+    width: 640px;
+    margin: 10px auto;
+    padding: 20px;
+    border: 2px var(--fg-color) solid;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.section * {
+    display: flex;
+    justify-content: space-around;
+    color: var(--fg-color);
+    font-size: 16pt;
+}
+
+body {
+    text-align: center;
+}
+
+.caption {
+    display: inline-block;
+    font-size: 30pt;
+    font-weight: bold;
+    margin: 10px auto;
+}
+
+.section_caption {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.author,
+.author * {
+    color: #888;
+    text-decoration: none;
+}
+
+/* About checkbox */
+
+.checkbox_container {
+    position: relative;
+    width: 120px;
+    height: 36px;
+    line-height: 36px;
+    border: 1px var(--fg-color) solid;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.checkbox_container input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+}
+
+.checkbox_container .checkbox_text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    width: 120px;
+}
+
+.checkbox_container input[type=checkbox]~.checkbox_label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 120px;
+    height: 36px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.checkbox_container input[type=checkbox]:checked~.checkbox_label {
+    background-color: var(--bg-color-stressed);
+}
+
+/* About selector */
+select {
+    background-color: transparent;
+    border: 1px solid var(--fg-color);
+    border-radius: 10px;
+    width: 80px;
+    height: 36px;
+    text-align: center;
+    cursor: pointer;
+}
+
+option {
+    border-radius: 10px;
+    background-color: transparent;
+    max-width: 100px;
+    max-height: 36px;
+}
+
+/* About Table */
+.table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.table .row {
+    flex-direction: row;
+    padding: 5px 0;
+}
+
+.table .row+.row {
+    border-top: #888 2px solid;
+}
+
+.cell {
+    width: 120px;
+}
+
+/*About Input*/
+.section input[type=text] {
+    appearance: none;
+    height: 34px;
+    border: var(--fg-color) solid 1px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: transparent;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.section .button {
+    background-color: transparent;
+    border: 1px solid var(--fg-color);
+    border-radius: 10px;
+    width: 80px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.section .button:active {
+    background-color: var(--bg-color-stressed);
+}
+
+.section .num_input {
+    width: 50px;
+}
+
+.section .err_message {
+    color: red;
+    width: 300px;
+    text-overflow: ellipsis;
+}
+
+/* About Texts */
+.text_section p {
+    text-indent: 2em;
+    -webkit-user-select: text;
+    user-select: text;
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.text_section {
+    justify-content: flex-start;
+    flex-direction: column;
+}
